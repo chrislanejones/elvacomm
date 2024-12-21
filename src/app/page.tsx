@@ -121,7 +121,7 @@ export default function Page() {
             </h2>
             <p className="mx-auto max-w-[800px] text-center text-lg leading-relaxed">
               Our team of seasoned agency and marketing professionals has served
-              America's top corporations for decades. We excel at working with
+              Americas top corporations for decades. We excel at working with
               your in-house marketing teams as well as with your top executives.
             </p>
           </div>
