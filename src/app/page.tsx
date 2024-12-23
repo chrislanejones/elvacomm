@@ -11,6 +11,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { AnimatedBackground } from "@/components/animated-background";
+import { ContactForm } from "@/components/contact-form";
 import { PortfolioSection } from "@/components/portfolio-section";
 import { Button } from "@/components/ui/button";
 import {
@@ -199,7 +200,9 @@ export default function Page() {
                   possible.
                 </CardDescription>
               </CardHeader>
-              <CardContent></CardContent>
+              <CardContent>
+                <ContactForm />
+              </CardContent>
             </Card>
           </div>
         </section>
