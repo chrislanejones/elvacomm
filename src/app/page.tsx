@@ -1,4 +1,13 @@
-import { ArrowRight, BarChart, Megaphone, Target } from "lucide-react";
+import {
+  ArrowRight,
+  BarChart,
+  Mail,
+  MapPin,
+  Megaphone,
+  Phone,
+  Target,
+} from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 
 import { AnimatedBackground } from "@/components/animated-background";
@@ -7,9 +16,9 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from "@/components/ui/card";
 
 export default function Page() {
@@ -39,6 +48,12 @@ export default function Page() {
               className="text-sm font-medium hover:text-primary"
             >
               Portfolio
+            </Link>
+            <Link
+              href="#contact"
+              className="text-sm font-medium hover:text-primary"
+            >
+              Contact
             </Link>
           </nav>
           <Button>Contact Us</Button>
@@ -134,6 +149,60 @@ export default function Page() {
           </h2>
           <PortfolioSection />
         </section>
+
+        {/* Contact Section */}
+        <section id="contact" className="container py-24">
+          <h2 className="mb-12 text-center text-3xl font-bold tracking-tighter sm:text-4xl">
+            Get in Touch
+          </h2>
+          <div className="grid gap-8 lg:grid-cols-2">
+            <div className="space-y-6">
+              <div className="relative aspect-video overflow-hidden rounded-lg">
+                <Image
+                  src="/placeholder.svg?height=400&width=600"
+                  alt="Contact Us"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="space-y-4">
+                <div className="flex items-center space-x-3">
+                  <MapPin className="h-5 w-5 text-orange-500" />
+                  <span>123 Marketing Street, Cityville, State 12345</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <Phone className="h-5 w-5 text-orange-500" />
+                  <span>(123) 456-7890</span>
+                </div>
+                <div className="flex items-center space-x-3">
+                  <Mail className="h-5 w-5 text-orange-500" />
+                  <span>info@elvacomm.com</span>
+                </div>
+              </div>
+              <p className="text-muted-foreground">
+                ElvaComm is a full-service marketing agency that specializes in
+                logistics marketing. Our team of seasoned professionals brings
+                decades of experience in transportation, supply chain, and
+                logistics marketing to help your business grow and succeed in
+                this competitive industry.
+              </p>
+              <Button variant="outline" size="lg" className="mt-4">
+                View the Brochure
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </div>
+            <Card>
+              <CardHeader>
+                <CardTitle>Send Us a Message</CardTitle>
+                <CardDescription>
+                  Fill out the form below and well get back to you as soon as
+                  possible.
+                </CardDescription>
+              </CardHeader>
+              <CardContent></CardContent>
+            </Card>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
@@ -156,7 +225,7 @@ export default function Page() {
               Terms
             </Link>
             <Link
-              href="#"
+              href="#contact"
               className="text-sm text-muted-foreground hover:text-primary"
             >
               Contact
