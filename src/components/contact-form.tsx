@@ -38,6 +38,16 @@ export function ContactForm() {
         <Input id="email" placeholder="Your email" type="email" required />
       </div>
       <div className="space-y-2">
+        <Label htmlFor="phone">Phone Number</Label>
+        <Input
+          id="phone"
+          placeholder="Your phone number"
+          type="tel"
+          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+          title="Format: 123-456-7890"
+        />
+      </div>
+      <div className="space-y-2">
         <Label htmlFor="message">Message</Label>
         <Textarea id="message" placeholder="Your message" required />
       </div>

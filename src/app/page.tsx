@@ -57,7 +57,9 @@ export default function Page() {
               Contact
             </Link>
           </nav>
-          <Button>Contact Us</Button>
+          <Link href="#contact">
+            <Button>Contact Us</Button>
+          </Link>
         </div>
       </header>
 
