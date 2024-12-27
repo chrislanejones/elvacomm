@@ -32,6 +32,9 @@ export default function Page() {
             <span className="text-xl font-bold">ElvaComm</span>
           </Link>
           <nav className="hidden gap-6 md:flex">
+            <Link href="#" className="text-sm font-medium hover:text-primary">
+              Home
+            </Link>
             <Link
               href="#services"
               className="text-sm font-medium hover:text-primary"
@@ -214,20 +217,32 @@ export default function Page() {
       <footer className="border-t py-8">
         <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
           <p className="text-sm text-muted-foreground">
-            © 2024 ElvaComm. All rights reserved.
+            &copy; {new Date().getFullYear()} ElvaComm. All rights reserved.
           </p>
           <nav className="flex gap-4">
             <Link
               href="#"
               className="text-sm text-muted-foreground hover:text-primary"
             >
-              Privacy
+              Home
             </Link>
             <Link
-              href="#"
+              href="#services"
               className="text-sm text-muted-foreground hover:text-primary"
             >
-              Terms
+              Services
+            </Link>
+            <Link
+              href="#about"
+              className="text-sm text-muted-foreground hover:text-primary"
+            >
+              About
+            </Link>
+            <Link
+              href="#portfolio"
+              className="text-sm text-muted-foreground hover:text-primary"
+            >
+              Portfolio
             </Link>
             <Link
               href="#contact"

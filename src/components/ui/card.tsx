@@ -49,8 +49,8 @@ const CardIcon = React.forwardRef<HTMLDivElement, CardIconProps>(
       ref={ref}
       style={style}
       className={cn(
-        "transition-all duration-800 transform origin-center",
-        isVisible ? "scale-100 opacity-100" : "scale-0 opacity-0",
+        "transition-all duration-500 transform",
+        isVisible ? "translate-x-0 opacity-100" : "translate-x-100 opacity-0",
         className
       )}
       {...props}
