@@ -1,3 +1,5 @@
+"use client";
+
 import * as React from "react";
 import { useState, useEffect, useRef } from "react";
 import { Star, Heart, MessageCircle } from "lucide-react";
@@ -35,26 +37,28 @@ const useIntersectionObserver = (
 };
 
 // Add a new component for animated icons
-const CardIcon = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & {
-    isVisible?: boolean;
-    icon?: React.ReactNode;
-  }
->(({ className, isVisible, icon, style, ...props }, ref) => (
-  <div
-    ref={ref}
-    style={style}
-    className={cn(
-      "transition-all duration-500",
-      isVisible ? "translate-x-0 opacity-100" : "-translate-x-10 opacity-0",
-      className
-    )}
-    {...props}
-  >
-    {icon}
-  </div>
-));
+interface CardIconProps extends React.HTMLAttributes<HTMLDivElement> {
+  isVisible?: boolean;
+  icon?: React.ReactNode;
+  children?: React.ReactNode;
+}
+
+const CardIcon = React.forwardRef<HTMLDivElement, CardIconProps>(
+  ({ className, isVisible, icon, style, ...props }, ref) => (
+    <div
+      ref={ref}
+      style={style}
+      className={cn(
+        "transition-all duration-800 transform origin-center",
+        isVisible ? "scale-100 opacity-100" : "scale-0 opacity-0",
+        className
+      )}
+      {...props}
+    >
+      {icon}
+    </div>
+  )
+);
 CardIcon.displayName = "CardIcon";
 
 const Card = React.forwardRef<
@@ -66,16 +70,16 @@ const Card = React.forwardRef<
     rootMargin: "50px",
   });
 
-  const [headerNode, setHeaderNode] = useState<HTMLDivElement | null>(null);
+  const headerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (headerNode && isVisible) {
-      const header = headerNode.querySelector('[role="banner"]');
+    if (headerRef.current && isVisible) {
+      const header = headerRef.current.querySelector('[role="banner"]');
       if (header && header instanceof HTMLElement) {
         header.style.visibility = "visible";
       }
     }
-  }, [isVisible, headerNode]);
+  }, [isVisible]);
 
   return (
     <div
@@ -100,26 +104,32 @@ const Card = React.forwardRef<
 });
 Card.displayName = "Card";
 
-const CardHeader = React.forwardRef<
-  HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & { isVisible?: boolean }
->(({ className, isVisible, ...props }, ref) => (
-  <div
-    ref={ref}
-    className={cn("flex flex-col space-y-1.5 p-6", className)}
-    {...props}
-  >
-    {React.Children.map(props.children, (child, index) => {
-      if (React.isValidElement(child) && child.type === CardIcon) {
-        return React.cloneElement(child, {
-          isVisible,
-          style: { transitionDelay: `${index * 100}ms` },
-        });
-      }
-      return child;
-    })}
-  </div>
-));
+interface CardHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
+  isVisible?: boolean;
+}
+
+const CardHeader = React.forwardRef<HTMLDivElement, CardHeaderProps>(
+  ({ className, isVisible, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn("flex flex-col space-y-1.5 p-6", className)}
+      {...props}
+    >
+      {React.Children.map(props.children, (child, index) => {
+        if (React.isValidElement(child) && child.type === CardIcon) {
+          return React.cloneElement(
+            child as React.ReactElement<CardIconProps>,
+            {
+              isVisible,
+              style: { transitionDelay: `${index * 100}ms` },
+            }
+          );
+        }
+        return child;
+      })}
+    </div>
+  )
+);
 CardHeader.displayName = "CardHeader";
 
 const CardTitle = React.forwardRef<
