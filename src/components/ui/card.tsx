@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useState, useEffect, useRef } from "react";
+import { Star, Heart, MessageCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const useIntersectionObserver = (
@@ -33,6 +34,29 @@ const useIntersectionObserver = (
   return [elementRef, isVisible];
 };
 
+// Add a new component for animated icons
+const CardIcon = React.forwardRef<
+  HTMLDivElement,
+  React.HTMLAttributes<HTMLDivElement> & {
+    isVisible?: boolean;
+    icon?: React.ReactNode;
+  }
+>(({ className, isVisible, icon, style, ...props }, ref) => (
+  <div
+    ref={ref}
+    style={style}
+    className={cn(
+      "transition-all duration-500",
+      isVisible ? "translate-x-0 opacity-100" : "-translate-x-10 opacity-0",
+      className
+    )}
+    {...props}
+  >
+    {icon}
+  </div>
+));
+CardIcon.displayName = "CardIcon";
+
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
@@ -41,6 +65,17 @@ const Card = React.forwardRef<
     threshold: 0.2,
     rootMargin: "50px",
   });
+
+  const [headerNode, setHeaderNode] = useState<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (headerNode && isVisible) {
+      const header = headerNode.querySelector('[role="banner"]');
+      if (header && header instanceof HTMLElement) {
+        header.style.visibility = "visible";
+      }
+    }
+  }, [isVisible, headerNode]);
 
   return (
     <div
@@ -67,13 +102,23 @@ Card.displayName = "Card";
 
 const CardHeader = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement>
->(({ className, ...props }, ref) => (
+  React.HTMLAttributes<HTMLDivElement> & { isVisible?: boolean }
+>(({ className, isVisible, ...props }, ref) => (
   <div
     ref={ref}
     className={cn("flex flex-col space-y-1.5 p-6", className)}
     {...props}
-  />
+  >
+    {React.Children.map(props.children, (child, index) => {
+      if (React.isValidElement(child) && child.type === CardIcon) {
+        return React.cloneElement(child, {
+          isVisible,
+          style: { transitionDelay: `${index * 100}ms` },
+        });
+      }
+      return child;
+    })}
+  </div>
 ));
 CardHeader.displayName = "CardHeader";
 
@@ -128,6 +173,11 @@ const ExampleCards = () => {
       {[1, 2, 3].map((i) => (
         <Card key={i}>
           <CardHeader>
+            <div className="flex gap-4 mb-4">
+              <CardIcon icon={<Star className="w-6 h-6" />} />
+              <CardIcon icon={<Heart className="w-6 h-6" />} />
+              <CardIcon icon={<MessageCircle className="w-6 h-6" />} />
+            </div>
             <CardTitle>Card {i}</CardTitle>
             <CardDescription>
               This card animates when scrolled into view
@@ -149,5 +199,6 @@ export {
   CardTitle,
   CardDescription,
   CardContent,
+  CardIcon,
   ExampleCards,
 };
