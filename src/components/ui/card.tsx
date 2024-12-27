@@ -4,8 +4,8 @@ import { cn } from "@/lib/utils";
 
 const useIntersectionObserver = (
   options = {}
-): [React.RefObject<HTMLDivElement>, boolean] => {
-  const elementRef = useRef<HTMLDivElement>(null);
+): [React.RefObject<HTMLDivElement | null>, boolean] => {
+  const elementRef = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [hasAnimated, setHasAnimated] = useState(false);
 
